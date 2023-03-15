@@ -29,7 +29,7 @@ export class PlayersController {
   @UsePipes(ValidationPipe)
   async updatePlayer(
     @Body() updatePlayerDTO: UpdatePlayerDTO,
-    @Param('id') id: string 
+    @Param('id') id: string,
   ) {
     await this.playersService.update(id, updatePlayerDTO);
   }
@@ -38,14 +38,16 @@ export class PlayersController {
   async getPlayers(): Promise<Player[]> {
     return this.playersService.getAllPlayers();
   }
- 
+
   @Get('/:id')
   async getPlayerById(@Param('id') id: string): Promise<Player> {
     return this.playersService.getPlayerById(id);
   }
 
   @Delete('/:id')
-  async deletePlayer(@Param('id', PlayersValidationParamsPipe) id: string): Promise<void> {
+  async deletePlayer(
+    @Param('id', PlayersValidationParamsPipe) id: string,
+  ): Promise<void> {
     return this.playersService.deletePlayer(id);
   }
 }
