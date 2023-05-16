@@ -3,6 +3,7 @@
 /node_modules
 /api/dist
 /api/node_modules
+/api/src/infra/rabbitmq
 
 # Logs
 logs
