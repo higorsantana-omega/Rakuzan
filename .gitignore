@@ -3,6 +3,13 @@
 /node_modules
 /api/dist
 /api/node_modules
+
+/api/api-gateway/node_modules
+/api/api-gateway/dist
+
+/api/ms-admin/node_modules
+/api/ms-admin/dist
+
 /api/src/infra/rabbitmq
 
 # Logs
