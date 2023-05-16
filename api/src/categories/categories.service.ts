@@ -63,6 +63,15 @@ export class CategoriesService {
     return category;
   }
 
+  async getCategoryByPlayer(playerId: string): Promise<Category> {
+    const category = await this.categoryModel
+      .find({ $where: 'players' })
+      .in(playerId)
+      .exec();
+
+    return category;
+  }
+
   async assignPlayerCategory(params: string[]): Promise<void> {
     const category = params['category'];
     const playerId = params['playerId'];
