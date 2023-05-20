@@ -1,5 +1,5 @@
 import { Controller, Logger } from '@nestjs/common';
-import { AppService } from './app.service';
+import { CategoriesService } from './categories.service';
 import {
   Ctx,
   EventPattern,
@@ -7,15 +7,15 @@ import {
   Payload,
   RmqContext,
 } from '@nestjs/microservices';
-import { Category } from './interfaces/categories/category.interface';
+import { Category } from './interfaces/category.interface';
 
 const ackErrors = ['E1100'];
 
 @Controller()
-export class AppController {
-  private logger = new Logger(AppController.name);
+export class CategoriesController {
+  private logger = new Logger(CategoriesController.name);
 
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly categoriesService: CategoriesService) {}
 
   @EventPattern('create-category')
   async createCategory(
@@ -28,7 +28,7 @@ export class AppController {
     this.logger.log(`category: ${JSON.stringify(category)}`);
 
     try {
-      await this.appService.createCategory(category);
+      await this.categoriesService.createCategory(category);
 
       await channel.ack(originalMessage);
     } catch (error) {
@@ -52,7 +52,7 @@ export class AppController {
     try {
       const category: Category = data.category;
 
-      await this.appService.updateCategory(data.id, category);
+      await this.categoriesService.updateCategory(data.id, category);
 
       await channel.ack(originalMessage);
     } catch (error) {
@@ -71,10 +71,10 @@ export class AppController {
 
     try {
       if (!_id) {
-        return this.appService.getAllCategories();
+        return this.categoriesService.getAllCategories();
       }
 
-      return this.appService.getCategoryById(_id);
+      return this.categoriesService.getCategoryById(_id);
     } finally {
       await channel.ack(originalMessage);
     }
