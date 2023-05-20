@@ -34,7 +34,7 @@ export class AppController {
     } catch (error) {
       this.logger.error(`error: ${JSON.stringify(error.message)}`);
 
-      const errors = ackErrors.filter((ack) => error.message.inclues(ack));
+      const errors = ackErrors.filter((ack) => error.message.includes(ack));
 
       if (errors) {
         await channel.ack(originalMessage);
@@ -56,7 +56,7 @@ export class AppController {
 
       await channel.ack(originalMessage);
     } catch (error) {
-      const errors = ackErrors.filter((ack) => error.message.inclues(ack));
+      const errors = ackErrors.filter((ack) => error.message.includes(ack));
 
       if (errors) {
         await channel.ack(originalMessage);
