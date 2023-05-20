@@ -6,6 +6,7 @@
 
 /api/api-gateway/node_modules
 /api/api-gateway/dist
+/api/api-gateway/uploads
 
 /api/ms-admin/node_modules
 /api/ms-admin/dist

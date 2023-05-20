@@ -9,6 +9,8 @@ import {
   Post,
   Put,
   Query,
+  UploadedFile,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -17,13 +19,18 @@ import UpdatePlayerDTO from './dtos/update-player.dto';
 import { ValidationParamsPipe } from '../common/pipes/validation-params.pipe';
 import { ClientProxyBasket } from 'src/proxy/client-proxy';
 import { Observable } from 'rxjs';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { LocalStorageService } from 'src/local-storage/local-storage.service';
 
 @Controller('/api/players')
 export class PlayersController {
   private logger = new Logger(PlayersController.name);
   private clientMSAdmin = this.clientProxyBasket.getClientProxyAdmin();
 
-  constructor(private clientProxyBasket: ClientProxyBasket) {}
+  constructor(
+    private clientProxyBasket: ClientProxyBasket,
+    private localStorageService: LocalStorageService,
+  ) {}
 
   @Post()
   @UsePipes(ValidationPipe)
@@ -68,5 +75,27 @@ export class PlayersController {
     @Param('id', ValidationParamsPipe) id: string,
   ): Promise<void> {
     this.clientMSAdmin.emit('delete-player', { id });
+  }
+
+  @Post('/:_id/upload')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadFiles(@UploadedFile() file, @Param('_id') _id: string) {
+    if (!file) {
+      throw new BadRequestException('File is empty');
+    }
+
+    const player = await this.clientMSAdmin
+      .send('get-players', _id)
+      .toPromise();
+    if (!player) {
+      throw new BadRequestException('Player not found');
+    }
+
+    const fileURL = await this.localStorageService.uploadFile(file);
+
+    this.clientMSAdmin.emit('update-player', {
+      id: _id,
+      player: { photo: fileURL },
+    });
   }
 }

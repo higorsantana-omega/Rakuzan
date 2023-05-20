@@ -22,6 +22,7 @@ specifiers:
   eslint-config-prettier: ^8.3.0
   eslint-plugin-prettier: ^4.0.0
   jest: 29.3.1
+  mkdirp: ^3.0.1
   moment-timezone: ^0.5.43
   prettier: ^2.3.2
   reflect-metadata: ^0.1.13
@@ -43,6 +44,7 @@ dependencies:
   amqplib: 0.10.3
   class-transformer: 0.5.1
   class-validator: 0.14.0
+  mkdirp: 3.0.1
   moment-timezone: 0.5.43
   reflect-metadata: 0.1.13
   rxjs: 7.8.1
@@ -3846,6 +3848,12 @@ packages:
     hasBin: true
     dependencies:
       minimist: 1.2.8
+
+  /mkdirp/3.0.1:
+    resolution: {integrity: sha512-+NsyUUAZDmo6YVHzL/stxSu3t9YS1iljliy3BSDrXJ/dkn1KYdmtZODGGjLcc9XLgVVpH4KshHB8XmZgMhaBXg==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dev: false
 
   /moment-timezone/0.5.43:
     resolution: {integrity: sha512-72j3aNyuIsDxdF1i7CEgV2FfxM1r6aaqJyLB2vwb33mXYyoyLly+F1zbWqhA3/bVIoJ4szlUoMbUnVdid32NUQ==}

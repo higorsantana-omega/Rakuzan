@@ -9,4 +9,7 @@ export default class UpdatePlayerDTO {
 
   @IsOptional()
   category: string;
+
+  @IsOptional()
+  photo?: string;
 }
