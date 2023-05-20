@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Category } from './interfaces/categories/category.interface';
@@ -27,6 +32,22 @@ export class AppService {
 
       const categoryCreated = new this.categoryModel(createCategoryDTO);
       return categoryCreated.save();
+    } catch (error) {
+      this.logger.error(`error: ${JSON.stringify(error.message)}`);
+      throw new RpcException(error.message);
+    }
+  }
+
+  async updateCategory(id: string, updateCategory: Category): Promise<void> {
+    try {
+      const category = await this.categoryModel.findOne({ _id: id }).exec();
+      if (!category) {
+        throw new BadRequestException(`category with id ${id} not exists.`);
+      }
+
+      await this.categoryModel
+        .findOneAndUpdate({ _id: id }, { $set: updateCategory })
+        .exec();
     } catch (error) {
       this.logger.error(`error: ${JSON.stringify(error.message)}`);
       throw new RpcException(error.message);

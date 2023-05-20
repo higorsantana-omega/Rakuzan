@@ -7,6 +7,7 @@ async function bootstrap() {
     transport: Transport.RMQ,
     options: {
       urls: ['amqp://guest:guest@localhost:5672/ranking'],
+      noAck: false,
       queue: 'ms-admin',
     },
   });
