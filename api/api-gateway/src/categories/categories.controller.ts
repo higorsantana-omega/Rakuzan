@@ -10,30 +10,17 @@ import {
   Put,
   Param,
 } from '@nestjs/common';
-import {
-  ClientProxy,
-  ClientProxyFactory,
-  Transport,
-} from '@nestjs/microservices';
 import { CreateCategoryDTO } from './dtos/create-category.dto';
 import { Observable } from 'rxjs';
 import { UpdateCategoryDTO } from './dtos/update-category.dto';
+import { ClientProxyBasket } from 'src/proxy/client-proxy';
 
 @Controller('/api')
-export class AppController {
-  private logger = new Logger(AppController.name);
+export class CategoriesController {
+  private logger = new Logger(CategoriesController.name);
+  private clientMSAdmin = this.clientProxyBasket.getClientProxyAdmin();
 
-  private clientMSAdmin: ClientProxy;
-
-  constructor() {
-    this.clientMSAdmin = ClientProxyFactory.create({
-      transport: Transport.RMQ,
-      options: {
-        urls: ['amqp://guest:guest@localhost:5672/ranking'],
-        queue: 'ms-admin',
-      },
-    });
-  }
+  constructor(private clientProxyBasket: ClientProxyBasket) {}
 
   @Post('/categories')
   @UsePipes(ValidationPipe)
