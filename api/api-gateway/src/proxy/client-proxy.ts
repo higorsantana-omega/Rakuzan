@@ -16,4 +16,14 @@ export class ClientProxyBasket {
       },
     });
   }
+
+  getClientProxyChallenge(): ClientProxy {
+    return ClientProxyFactory.create({
+      transport: Transport.RMQ,
+      options: {
+        urls: ['amqp://guest:guest@localhost:5672/ranking'],
+        queue: 'ms-challenges',
+      },
+    });
+  }
 }

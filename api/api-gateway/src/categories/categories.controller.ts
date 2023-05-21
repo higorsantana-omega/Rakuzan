@@ -15,25 +15,25 @@ import { Observable } from 'rxjs';
 import { UpdateCategoryDTO } from './dtos/update-category.dto';
 import { ClientProxyBasket } from 'src/proxy/client-proxy';
 
-@Controller('/api')
+@Controller('/api/categories')
 export class CategoriesController {
   private logger = new Logger(CategoriesController.name);
   private clientMSAdmin = this.clientProxyBasket.getClientProxyAdmin();
 
   constructor(private clientProxyBasket: ClientProxyBasket) {}
 
-  @Post('/categories')
+  @Post('')
   @UsePipes(ValidationPipe)
   createCategory(@Body() createCategoryDTO: CreateCategoryDTO): void {
     this.clientMSAdmin.emit('create-category', createCategoryDTO);
   }
 
-  @Get('/categories')
+  @Get('')
   getCategories(@Query('idCategory') _id: string): Observable<any> {
     return this.clientMSAdmin.send('get-categories', _id ? _id : '');
   }
 
-  @Put('/categories/:id')
+  @Put('/:id')
   @UsePipes(ValidationPipe)
   updateCategory(
     @Body() updateCategoryDTO: UpdateCategoryDTO,
