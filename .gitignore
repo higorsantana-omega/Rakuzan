@@ -11,6 +11,9 @@
 /api/ms-admin/node_modules
 /api/ms-admin/dist
 
+/api/ms-challenges/node_modules
+/api/ms-challenges/dist
+
 /api/src/infra/rabbitmq
 
 # Logs
