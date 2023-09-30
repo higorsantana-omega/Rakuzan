@@ -19,7 +19,6 @@ import { ChallengeStatusValidatorPipe } from '../common/pipes/challenge-status-v
 import { UpdateChallengeDTO } from './dtos/update-challenge.dto';
 import { AssignChallengeMatchDTO } from './dtos/assign-challenge-match.dto';
 import { Category } from 'src/categories/dtos/category.interface';
-import { Match } from './interfaces/challenges.interface';
 
 @Controller('/api/challenges')
 export class ChallengesController {
@@ -51,7 +50,7 @@ export class ChallengesController {
       );
 
     const categories: Category[] = await this.clientMSAdmin
-      .emit('get-categories', createChallengeDTO.category)
+      .send('get-categories', createChallengeDTO.category)
       .toPromise();
     if (!categories) throw new BadRequestException(`The category not exists`);
 
