@@ -55,7 +55,9 @@ export class ChallengesController {
     if (!categories) throw new BadRequestException(`The category not exists`);
 
     this.clientMSChallenge.emit('create-challenge', {
-      challenge: createChallengeDTO,
+      ...createChallengeDTO,
+      request: createChallengeDTO.requestBy,
+      players: createChallengeDTO?.players?.map((player) => player._id),
     });
   }
 
