@@ -10,6 +10,7 @@ import { ClientProxyBasket } from '../proxy/client-proxy';
 export class MatchService {
   private readonly logger = new Logger(MatchService.name);
   private clientChallenges = this.clientProxyBasket.getClientProxyChallenge();
+  private clientRankings = this.clientProxyBasket.getClientProxyRankings();
 
   constructor(
     @InjectModel('Match')
@@ -29,10 +30,17 @@ export class MatchService {
         .send('get-challenges', { _id: match.challenge })
         .toPromise();
 
-      return this.clientChallenges
+      await this.clientChallenges
         .emit('assign-challenge-match', {
           challenge: challenge,
           matchId: matchId,
+        })
+        .toPromise();
+
+      return this.clientRankings
+        .emit('process-match', {
+          matchId,
+          match,
         })
         .toPromise();
     } catch (error) {
