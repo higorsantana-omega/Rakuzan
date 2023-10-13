@@ -46,9 +46,8 @@ export class ChallengesService {
       }
 
       const challengeUpdated = {
-        ...challenge,
         ...updateChallengeDTO,
-      };
+      } as Challenge;
 
       if (updateChallengeDTO.status) {
         challengeUpdated.dateResponse = new Date();

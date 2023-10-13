@@ -1,14 +1,15 @@
-import { Logger } from '@nestjs/common';
+import { Controller, Logger } from '@nestjs/common';
 import { Match } from './interfaces/match.interface';
 import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
 import { MatchService } from './match.service';
 
 const ackErrors = ['E1100'];
 
+@Controller()
 export class MatchController {
   private logger = new Logger(MatchController.name);
 
-  constructor(private readonly matchService: MatchService) {}
+  constructor(private matchService: MatchService) {}
 
   @EventPattern('create-match')
   async createMatch(@Payload() match: Match, @Ctx() context: RmqContext) {

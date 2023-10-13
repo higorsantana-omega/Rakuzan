@@ -71,7 +71,7 @@ export class ChallengesController {
     }
 
     return this.clientMSChallenge
-      .send('get-challenges', _id ? _id : '')
+      .send('get-challenges', _id ? { _id } : '')
       .toPromise();
   }
 
@@ -81,8 +81,8 @@ export class ChallengesController {
     @Body(ChallengeStatusValidatorPipe) updateChallengeDTO: UpdateChallengeDTO,
     @Param('challenge') _id: string,
   ) {
-    const challenge = await this.clientMSAdmin
-      .send('get-challenges', _id)
+    const challenge = await this.clientMSChallenge
+      .send('get-challenges', { _id })
       .toPromise();
     if (!challenge) throw new BadRequestException(`Challenge not found`);
 
@@ -103,9 +103,10 @@ export class ChallengesController {
     @Body(ValidationPipe) assignChallengeMatchDTO: AssignChallengeMatchDTO,
     @Param('challenge') _id: string,
   ): Promise<void> {
-    const challenge = await this.clientMSAdmin
-      .send('get-challenges', _id)
+    const challenge = await this.clientMSChallenge
+      .send('get-challenges', { _id })
       .toPromise();
+
     if (!challenge) throw new BadRequestException(`Challenge not found`);
 
     if (challenge.status === 'REALIZED')
@@ -125,13 +126,13 @@ export class ChallengesController {
       result: assignChallengeMatchDTO.result,
     };
 
-    this.clientMSChallenge.emit('assign-challenge-match', match);
+    this.clientMSChallenge.emit('create-match', match);
   }
 
   @Delete('/:id')
   async deleteChallenge(@Param('id') id: string): Promise<void> {
-    const challenge = await this.clientMSAdmin
-      .send('get-challenges', id)
+    const challenge = await this.clientMSChallenge
+      .send('get-challenges', { _id: id })
       .toPromise();
     if (!challenge) throw new BadRequestException(`Challenge not found`);
 

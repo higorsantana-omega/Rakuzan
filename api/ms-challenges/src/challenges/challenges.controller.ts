@@ -1,11 +1,5 @@
 import { Controller, Logger } from '@nestjs/common';
-import {
-  Ctx,
-  EventPattern,
-  MessagePattern,
-  Payload,
-  RmqContext,
-} from '@nestjs/microservices';
+import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
 import { ChallengesService } from './challenges.service';
 import { Challenge } from './interfaces/challenges.interface';
 
@@ -86,10 +80,12 @@ export class ChallengesController {
     }
   }
 
-  @MessagePattern('get-challenges')
+  @EventPattern('get-challenges')
   async getChallenges(@Payload() data: any, @Ctx() context: RmqContext) {
     const channel = context.getChannelRef();
     const originalMessage = context.getMessage();
+
+    console.log(data)
 
     try {
       const { _id, playerId } = data;
@@ -97,7 +93,7 @@ export class ChallengesController {
       if (_id) {
         return this.challengesService.getChallengesById(_id);
       } else if (playerId) {
-        return this.challengesService.getChallengeByPlayerId(_id);
+        return this.challengesService.getChallengeByPlayerId(playerId);
       } else {
         return this.challengesService.getAllChallenges();
       }
