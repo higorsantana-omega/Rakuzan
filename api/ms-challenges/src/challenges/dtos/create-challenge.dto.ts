@@ -5,7 +5,6 @@ import {
   ArrayMinSize,
   IsNotEmpty,
 } from 'class-validator';
-import Player from 'src/players/interfaces/players.interface';
 
 export class CreateChallengeDTO {
   @IsDateString()
@@ -13,10 +12,10 @@ export class CreateChallengeDTO {
   dateTime: Date;
 
   @IsNotEmpty()
-  requestBy: Player;
+  requestBy: string;
 
   @IsArray()
   @ArrayMinSize(2)
   @ArrayMaxSize(2)
-  players: Player[];
+  players: string[];
 }

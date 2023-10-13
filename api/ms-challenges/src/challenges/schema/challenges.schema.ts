@@ -1,23 +1,21 @@
 import mongoose from 'mongoose';
-import { Challenge } from '../interfaces/challenges.interface';
 
-export const ChallengeSchema = new mongoose.Schema<Challenge>(
+export const ChallengeSchema = new mongoose.Schema(
   {
     dateTime: { type: Date },
     dateRequest: { type: Date },
     dateResponse: { type: Date },
     status: { type: String },
-    request: { type: mongoose.Schema.Types.ObjectId, ref: 'Player' },
-    category: { type: String },
+    request: { type: mongoose.Schema.Types.ObjectId },
+    category: { type: mongoose.Schema.Types.ObjectId },
     players: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Player',
       },
     ],
     match: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Player',
+      ref: 'Match',
     },
   },
   { timestamps: true, collection: 'challenges' },

@@ -2,14 +2,14 @@ import mongoose from 'mongoose';
 
 export const MatchSchema = new mongoose.Schema(
   {
-    category: { type: String },
+    challenge: { type: mongoose.Schema.Types.ObjectId },
+    category: { type: mongoose.Schema.Types.ObjectId },
     players: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Player',
       },
     ],
-    def: { type: mongoose.Schema.Types.ObjectId, ref: 'Player' },
+    def: { type: mongoose.Schema.Types.ObjectId },
     result: [{ set: { type: String } }],
   },
   { timestamps: true, collection: 'matches' },

@@ -11,7 +11,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { CreateChallengeDTO } from './dtos/create-challenge.dto';
-import { ChallengesService } from './challenges.service';
+import { ChallengesService } from '../../ms-challenges/src/challenges/challenges.service';
 import { Challenge } from './interfaces/challenges.interface';
 import { ChallengeStatusValidatorPipe } from './pipes/challenge-status-validator.pipe';
 import { UpdateChallengeDTO } from './dtos/update-challenge.dto';
