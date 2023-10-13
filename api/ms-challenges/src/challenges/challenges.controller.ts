@@ -31,7 +31,7 @@ export class ChallengesController {
       await this.challengesService.create({
         dateTime: challenge.dateTime,
         players: challenge.players,
-        requestBy: challenge.request,
+        request: challenge.request,
       });
 
       await channel.ack(originalMessage);

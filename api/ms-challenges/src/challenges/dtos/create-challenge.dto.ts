@@ -12,7 +12,7 @@ export class CreateChallengeDTO {
   dateTime: Date;
 
   @IsNotEmpty()
-  requestBy: string;
+  request: string;
 
   @IsArray()
   @ArrayMinSize(2)
