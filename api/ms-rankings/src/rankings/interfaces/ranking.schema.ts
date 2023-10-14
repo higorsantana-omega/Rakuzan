@@ -38,3 +38,16 @@ export interface Match extends Document {
 export interface Result {
   set: string;
 }
+
+export interface Event {
+  name: 'VICTORY' | 'DEFEAT';
+  operation: '+' | '-';
+  value: number;
+}
+
+export interface Category {
+  readonly _id: string;
+  readonly category: string;
+  description: string;
+  events: Event[];
+}
