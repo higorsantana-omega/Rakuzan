@@ -101,6 +101,23 @@ export class ChallengesController {
     }
   }
 
+  @EventPattern('get-challenges-realized')
+  async getChallengesRealized(
+    @Payload() data: any,
+    @Ctx() context: RmqContext,
+  ) {
+    const channel = context.getChannelRef();
+    const originalMessage = context.getMessage();
+
+    try {
+      this.logger.log(`${data}`);
+
+      return this.challengesService.getAllChallenges(data);
+    } finally {
+      await channel.ack(originalMessage);
+    }
+  }
+
   @EventPattern('assign-challenge-match')
   async assignChallengeMatch(@Payload() data: any, @Ctx() context: RmqContext) {
     const channel = context.getChannelRef();

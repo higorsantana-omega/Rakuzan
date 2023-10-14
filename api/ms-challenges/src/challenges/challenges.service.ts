@@ -11,6 +11,7 @@ import { RpcException } from '@nestjs/microservices';
 import { Challenge } from './interfaces/challenges.interface';
 import { CreateChallengeDTO } from './dtos/create-challenge.dto';
 import { UpdateChallengeDTO } from './dtos/update-challenge.dto';
+import moment from 'moment-timezone';
 
 @Injectable()
 export class ChallengesService {
@@ -82,10 +83,34 @@ export class ChallengesService {
     }
   }
 
-  async getAllChallenges(): Promise<Challenge[]> {
+  async getAllChallenges(params?: {
+    categoryId?: string;
+    dateRef?: string;
+  }): Promise<Challenge[]> {
+    const { categoryId, dateRef } = params;
+
     try {
-      const categories = await this.challengeModel.find().exec();
-      return categories;
+      if (!categoryId && !dateRef) {
+        const categories = await this.challengeModel.find().exec();
+        return categories;
+      }
+
+      const query = this.challengeModel.find();
+
+      if (categoryId) {
+        query.where('category').equals(categoryId);
+      }
+
+      if (dateRef) {
+        const date = new Date(`${dateRef}T23:59:59.999Z`);
+        const dateUnix = date.getTime();
+        query.where('dateRequest').lte(dateUnix);
+      }
+
+      query.where('status').equals('REALIZED');
+
+      const challenges = await query.exec();
+      return challenges;
     } catch (error) {
       this.logger.error(`${JSON.stringify(error.message)}`);
       throw new RpcException(error.message);
