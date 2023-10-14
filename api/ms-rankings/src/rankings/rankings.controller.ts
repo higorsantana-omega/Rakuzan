@@ -1,6 +1,12 @@
 import { Controller, Logger } from '@nestjs/common';
-import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
-import { Match } from './interfaces/ranking.schema';
+import {
+  Ctx,
+  EventPattern,
+  MessagePattern,
+  Payload,
+  RmqContext,
+} from '@nestjs/microservices';
+import { Match, RankingResult } from './interfaces/ranking.schema';
 import { RankingsService } from './rankings.service';
 
 const ackErrors = ['E1100'];
@@ -32,6 +38,23 @@ export class RankingsController {
       if (errors) {
         await channel.ack(originalMessage);
       }
+    }
+  }
+
+  @MessagePattern('get-rankings')
+  async getRankings(
+    @Payload() data: any,
+    @Ctx() context: RmqContext,
+  ): Promise<RankingResult[]> {
+    const channel = context.getChannelRef();
+    const originalMessage = context.getMessage();
+
+    try {
+      const { categoryId, dateRef } = data;
+
+      return this.rankingsService.getRankings(categoryId, dateRef);
+    } finally {
+      await channel.ack(originalMessage);
     }
   }
 }

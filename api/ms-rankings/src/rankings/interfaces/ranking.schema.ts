@@ -27,6 +27,18 @@ export class Ranking extends Document {
 
 export const RankingSchema = SchemaFactory.createForClass(Ranking);
 
+export interface RankingResult {
+  player?: string;
+  position?: number;
+  points?: number;
+  matchHistory?: MatchHistory;
+}
+
+export interface MatchHistory {
+  victory: number;
+  defeat: number;
+}
+
 export interface Match extends Document {
   category: string;
   players: string[];
@@ -50,4 +62,25 @@ export interface Category {
   readonly category: string;
   description: string;
   events: Event[];
+}
+
+export type ChallengeStatus =
+  | 'PENDING'
+  | 'ACCEPTED'
+  | 'DECLINED'
+  | 'CANCELLED'
+  | 'REALIZED';
+
+export interface Challenge {
+  _id: string;
+  dateTime: Date;
+  dateRequest: Date;
+  dateResponse: Date;
+
+  status: ChallengeStatus;
+
+  request: string;
+  category: string;
+  players: string[];
+  match: string;
 }
