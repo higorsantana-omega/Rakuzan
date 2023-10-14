@@ -1,5 +1,7 @@
-## :scroll: Overview
+## Overview
 This project provides sports enthusiasts with the opportunity to actively participate in virtual competitions, create and customize players, set challenges, and compete for top positions in rankings, offering an engaging experience.
+
+## Architecture![Logo](.github/diagram-architecture.png)
 
 ## Installation and usage
 ```git clone https://github.com/higorsantana-omega/basket.git```
