@@ -25,6 +25,7 @@ export class ChallengesService {
     try {
       const challenge = new this.challengeModel(createChallengeDTO);
 
+      challenge.category = createChallengeDTO.category;
       challenge.dateRequest = new Date();
       challenge.status = 'PENDING';
 

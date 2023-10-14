@@ -26,6 +26,7 @@ export class ChallengesController {
         dateTime: challenge.dateTime,
         players: challenge.players,
         request: challenge.request,
+        category: challenge.category,
       });
 
       await channel.ack(originalMessage);
@@ -84,8 +85,6 @@ export class ChallengesController {
   async getChallenges(@Payload() data: any, @Ctx() context: RmqContext) {
     const channel = context.getChannelRef();
     const originalMessage = context.getMessage();
-
-    console.log(data)
 
     try {
       const { _id, playerId } = data;

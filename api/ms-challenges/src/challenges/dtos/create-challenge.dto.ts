@@ -18,4 +18,7 @@ export class CreateChallengeDTO {
   @ArrayMinSize(2)
   @ArrayMaxSize(2)
   players: string[];
+
+  @IsNotEmpty()
+  category: string;
 }
