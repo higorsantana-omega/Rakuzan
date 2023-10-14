@@ -6,6 +6,7 @@ import { PlayersController } from './players/players.controller';
 import { LocalStorageModule } from './local-storage/local-storage.module';
 import { PlayersModule } from './players/players.module';
 import { ChallengesModule } from './challenges/challenges.module';
+import { RankingsModule } from './rankings/rankings.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ChallengesModule } from './challenges/challenges.module';
     ProxyRMQModule,
     LocalStorageModule,
     ChallengesModule,
+    RankingsModule,
   ],
   controllers: [CategoriesController, PlayersController],
   providers: [],
