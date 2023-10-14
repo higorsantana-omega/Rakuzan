@@ -14,6 +14,9 @@
 /api/ms-challenges/node_modules
 /api/ms-challenges/dist
 
+/api/ms-rankings/node_modules
+/api/ms-rankings/dist
+
 /api/src/infra/rabbitmq
 
 # Logs
