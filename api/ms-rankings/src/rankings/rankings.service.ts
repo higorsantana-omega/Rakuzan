@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Match, Ranking } from './interfaces/ranking.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { RpcException } from '@nestjs/microservices';
 
 @Injectable()
 export class RankingsService {
@@ -14,34 +15,39 @@ export class RankingsService {
 
     const { match, matchId } = processMatchDTO;
 
-    const rankingsPromises = match.players.map((player) => {
-      const ranking = new this.rankingModel();
+    try {
+      const rankingsPromises = match.players.map((player) => {
+        const ranking = new this.rankingModel();
 
-      ranking.category = match.category;
-      ranking.challenge = match.challenge;
-      ranking.match = matchId;
-      ranking.player = player;
+        ranking.category = match.category;
+        ranking.challenge = match.challenge;
+        ranking.match = matchId;
+        ranking.player = player;
 
-      const isWinner = player === match.def;
-      const isLoser = player !== match.def;
+        const isWinner = player === match.def;
+        const isLoser = player !== match.def;
 
-      if (isWinner) {
-        ranking.event = 'VICTORY';
-        ranking.points = 30;
-        ranking.operation = '+';
-      }
+        if (isWinner) {
+          ranking.event = 'VICTORY';
+          ranking.points = 30;
+          ranking.operation = '+';
+        }
 
-      if (isLoser) {
-        ranking.event = 'DEFEAT';
-        ranking.points = 0;
-        ranking.operation = '-';
-      }
+        if (isLoser) {
+          ranking.event = 'DEFEAT';
+          ranking.points = 0;
+          ranking.operation = '-';
+        }
 
-      this.logger.log(`ranking: ${JSON.stringify(ranking)}`);
+        this.logger.log(`ranking: ${JSON.stringify(ranking)}`);
 
-      return ranking.save();
-    });
+        return ranking.save();
+      });
 
-    await Promise.all(rankingsPromises);
+      await Promise.all(rankingsPromises);
+    } catch (error) {
+      this.logger.error(error);
+      throw new RpcException(error.message);
+    }
   }
 }
