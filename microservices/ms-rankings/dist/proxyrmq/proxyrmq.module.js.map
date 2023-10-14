@@ -1,0 +1,1 @@
+{"version":3,"file":"proxyrmq.module.js","sourceRoot":"","sources":["../../src/proxyrmq/proxyrmq.module.ts"],"names":[],"mappings":";;;;;;;;;AAAA,2CAAwC;AACxC,iDAAmD;AAM5C,IAAM,cAAc,GAApB,MAAM,cAAc;CAAG,CAAA;AAAjB,cAAc;IAJ1B,IAAA,eAAM,EAAC;QACN,SAAS,EAAE,CAAC,gCAAiB,CAAC;QAC9B,OAAO,EAAE,CAAC,gCAAiB,CAAC;KAC7B,CAAC;GACW,cAAc,CAAG;AAAjB,wCAAc"}
